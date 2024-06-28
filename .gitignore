@@ -1,0 +1,34 @@
+/.idea/
+/**/target/
+/data/
+
+# maven ignore
+HELP.md
+*.jar
+!.mvn/wrapper/*
+*.war
+*.zip
+*.tar
+*.tar.gz
+
+# vscode ignore
+.vscode/
+
+# temp ignore
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+/log/
+
+#configuration ingore
+**/application-local.yml
+**/application-local.properties
+
+# system ignore
+.DS_Store
+Thumbs.db
+*.orig
+
+
