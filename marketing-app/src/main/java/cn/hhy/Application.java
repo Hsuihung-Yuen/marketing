@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @Configurable
 public class Application {
 
-    //etse
     public static void main(String[] args){
         SpringApplication.run(Application.class);
     }
