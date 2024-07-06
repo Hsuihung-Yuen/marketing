@@ -1,4 +1,4 @@
-package cn.hhy.domain.strategy.service.rule.factory;
+package cn.hhy.domain.strategy.service.rule.filter.factory;
 
 import cn.hhy.domain.strategy.model.entity.RuleActionEntity;
 import cn.hhy.domain.strategy.service.annotation.LogicStrategy;
