@@ -90,7 +90,6 @@ public class LogicTreeTest {
         ruleTreeVO.setTreeName("决策树规则；增加dall-e-3画图模型");
         ruleTreeVO.setTreeDesc("决策树规则；增加dall-e-3画图模型");
         ruleTreeVO.setTreeRootRuleNode("rule_lock");
-
         ruleTreeVO.setTreeNodeMap(new HashMap<String, RuleTreeNodeVO>() {{
             put("rule_lock", rule_lock);
             put("rule_stock", rule_stock);
