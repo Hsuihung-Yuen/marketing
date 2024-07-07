@@ -28,11 +28,11 @@ public class LogicTreeTest {
     private DefaultTreeFactory defaultTreeFactory;
 
     /**
-     *              rule_lock
-     *              /       \
-     * rule_luck_award      rule_stock
-     *                              \
-     *                          rule_luck_award
+     *          rule_lock
+     *          /       \
+     *  rule_stock     rule_luck_award
+     *          \
+     *       rule_luck_award
      */
     @Test
     public void test_tree_rule() {
