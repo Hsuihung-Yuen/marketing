@@ -3,6 +3,7 @@ package cn.hhy.domain.strategy.repository;
 import cn.hhy.domain.strategy.model.entity.StrategyAwardEntity;
 import cn.hhy.domain.strategy.model.entity.StrategyEntity;
 import cn.hhy.domain.strategy.model.entity.StrategyRuleEntity;
+import cn.hhy.domain.strategy.model.valobj.RuleTreeVO;
 import cn.hhy.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 
 import java.util.List;
@@ -34,5 +35,14 @@ public interface IStrategyRepository {
     String queryStrategyRuleValue(Long strategyId, Integer awardId, String ruleModel);
 
     StrategyAwardRuleModelVO queryStrategyAwardRuleModelVO(Long strategyId, Integer awardId);
+
+    /**
+     * 根据规则树ID，查询树结构信息
+     *
+     * @param treeId 规则树ID
+     * @return 树结构信息
+     */
+    RuleTreeVO queryRuleTreeVOByTreeId(String treeId);
+
 
 }
