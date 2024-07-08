@@ -39,10 +39,10 @@
 
     <developers>
         <developer>
-            <name>xiaofuge</name>
-            <email>184172133@qq.com</email>
-            <organization>fuzhengwei</organization>
-            <organizationUrl>https://github.com/fuzhengwei</organizationUrl>
+            <name>Hhy</name>
+            <email>hsuihung@163.com</email>
+            <organization>Hsuihung-Yuen</organization>
+            <organizationUrl>https://github.com/Hsuihung-Yuen</organizationUrl>
         </developer>
     </developers>
 
@@ -117,7 +117,7 @@
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
-                <version>3.23.4</version>
+                <version>3.26.0</version>
             </dependency>
 
             <!-- 工程模块 -->
