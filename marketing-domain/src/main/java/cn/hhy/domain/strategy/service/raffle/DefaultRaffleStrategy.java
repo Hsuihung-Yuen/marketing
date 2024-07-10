@@ -1,10 +1,13 @@
 package cn.hhy.domain.strategy.service.raffle;
 
+import cn.hhy.domain.strategy.model.entity.StrategyAwardEntity;
 import cn.hhy.domain.strategy.model.valobj.RuleTreeVO;
 import cn.hhy.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 import cn.hhy.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
 import cn.hhy.domain.strategy.repository.IStrategyRepository;
 import cn.hhy.domain.strategy.service.AbstractRaffleStrategy;
+import cn.hhy.domain.strategy.service.IRaffleAward;
+import cn.hhy.domain.strategy.service.IRaffleStock;
 import cn.hhy.domain.strategy.service.armory.IStrategyDispatch;
 import cn.hhy.domain.strategy.service.rule.chain.ILogicChain;
 import cn.hhy.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
@@ -12,6 +15,8 @@ import cn.hhy.domain.strategy.service.rule.tree.factory.DefaultTreeFactory;
 import cn.hhy.domain.strategy.service.rule.tree.factory.engine.IDecisionTreeEngine;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author Hhy
@@ -21,7 +26,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
+public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRaffleStock, IRaffleAward {
 
     public DefaultRaffleStrategy(IStrategyRepository repository, IStrategyDispatch strategyDispatch, DefaultChainFactory defaultChainFactory, DefaultTreeFactory defaultTreeFactory) {
         super(repository, strategyDispatch, defaultChainFactory, defaultTreeFactory);
@@ -30,11 +35,7 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
     @Override
     public DefaultChainFactory.StrategyAwardVO raffleLogicChain(String userId, Long strategyId) {
         ILogicChain logicChain = defaultChainFactory.openLogicChain(strategyId);
-        if(null == logicChain){
-            return DefaultChainFactory.StrategyAwardVO.builder()
-                    .logicModel(DefaultChainFactory.LogicModel.RULE_DEFAULT.getCode())
-                    .build();
-        }else return logicChain.logic(userId, strategyId);
+        return logicChain.logic(userId, strategyId);
     }
 
     @Override
@@ -60,5 +61,10 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
     @Override
     public void updateStrategyAwardStock(Long strategyId, Integer awardId) {
         repository.updateStrategyAwardStock(strategyId, awardId);
+    }
+
+    @Override
+    public List<StrategyAwardEntity> queryRaffleStrategyAwardList(Long strategyId) {
+        return repository.queryStrategyAwardList(strategyId);
     }
 }

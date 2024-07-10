@@ -13,6 +13,7 @@
         <module>marketing-trigger</module>
         <module>marketing-infrastructure</module>
         <module>marketing-types</module>
+        <module>marketing-api</module>
     </modules>
 
     <repositories>

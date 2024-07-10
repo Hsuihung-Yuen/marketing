@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  * @create 2024/7/6
  */
 @Slf4j
-@Component("default")
+@Component("rule_default")
 public class DefaultLogicChain extends AbstractLogicChain {
 
     @Resource

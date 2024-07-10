@@ -36,6 +36,12 @@
             <groupId>cn.hhy</groupId>
             <artifactId>marketing-domain</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.hhy</groupId>
+            <artifactId>marketing-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
