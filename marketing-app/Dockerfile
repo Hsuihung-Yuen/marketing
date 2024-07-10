@@ -2,7 +2,7 @@
 FROM openjdk:8-jre-slim
 
 # 作者
-MAINTAINER xiaofuge
+MAINTAINER Hhy
 
 # 配置
 ENV PARAMS=""
@@ -12,6 +12,6 @@ ENV TZ=PRC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # 添加应用
-ADD target/marketing-app-app.jar /marketing-app-app.jar
+ADD target/marketing-app.jar /marketing-app.jar
 
-ENTRYPOINT ["sh","-c","java -jar $JAVA_OPTS /marketing-app-app.jar $PARAMS"]
+ENTRYPOINT ["sh","-c","java -jar $JAVA_OPTS /marketing-app.jar $PARAMS"]
