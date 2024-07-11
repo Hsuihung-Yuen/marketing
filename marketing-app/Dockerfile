@@ -1,5 +1,13 @@
 # 基础镜像
-FROM openjdk:8-jre-slim
+#FROM openjdk:8u141-jre-slim
+
+# xfg
+#FROM openjdk:8-jre-slim
+
+#瞎找的镜像，只支持amd64
+FROM anapsix/alpine-java:8_server-jre_unlimited
+
+
 
 # 作者
 MAINTAINER Hhy
