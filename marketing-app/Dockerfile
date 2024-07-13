@@ -22,5 +22,5 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # 添加应用
 ADD target/marketing-app.jar /marketing-app.jar
-
+z
 ENTRYPOINT ["sh","-c","java -jar $JAVA_OPTS /marketing-app.jar $PARAMS"]

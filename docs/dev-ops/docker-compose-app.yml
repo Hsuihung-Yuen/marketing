@@ -14,11 +14,11 @@ services:
       - APP_CONFIG_CROSS_ORIGIN=*
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=123456
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/big_market?serverTimezone=UTC&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Shanghai
+      - SPRING_DATASOURCE_URL=jdbc:mysql://172.16.0.3:13306/big_market?serverTimezone=UTC&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Shanghai
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
       - SPRING_HIKARI_POOL_NAME=Retail_HikariCP
-      - REDIS_SDK_CONFIG_HOST=redis
-      - REDIS_SDK_CONFIG_PORT=6379
+      - REDIS_SDK_CONFIG_HOST=172.16.0.3
+      - REDIS_SDK_CONFIG_PORT=16379
     volumes:
       - ./log:/data/log
     networks:
