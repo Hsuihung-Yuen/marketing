@@ -1,4 +1,4 @@
-package cn.hhy.test.domain;
+package cn.hhy.test.domain.strategy;
 
 import cn.hhy.domain.strategy.service.armory.IStrategyArmory;
 import cn.hhy.domain.strategy.service.rule.chain.ILogicChain;

@@ -1,4 +1,4 @@
-package cn.hhy.test.domain;
+package cn.hhy.test.domain.strategy;
 
 import cn.hhy.domain.strategy.model.entity.RaffleAwardEntity;
 import cn.hhy.domain.strategy.model.entity.RaffleFactorEntity;
