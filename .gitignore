@@ -1,34 +1,41 @@
-/.idea/
-/**/target/
-**/data/
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-# maven ignore
-HELP.md
-*.jar
-!.mvn/wrapper/*
-*.war
-*.zip
-*.tar
-*.tar.gz
+### IntelliJ IDEA ###
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+*.iws
+*.iml
+*.ipr
 
-# vscode ignore
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
 .vscode/
 
-# temp ignore
-*.log
-*.cache
-*.diff
-*.patch
-*.tmp
-/log/
-
-#configuration ingore
-**/application-local.yml
-**/application-local.properties
-
-# system ignore
+### Mac OS ###
 .DS_Store
-Thumbs.db
-*.orig
-
-
+/data/
+/.idea/
+/docs/dev-ops/log/
