@@ -36,6 +36,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
-/data/
+/**/data/
 /.idea/
 /docs/dev-ops/log/
