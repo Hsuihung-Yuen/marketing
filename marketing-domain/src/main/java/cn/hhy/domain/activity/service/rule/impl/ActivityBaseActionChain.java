@@ -18,7 +18,6 @@ public class ActivityBaseActionChain extends AbstractActionChain {
     @Override
     public boolean action(ActivitySkuEntity activitySkuEntity, ActivityEntity activityEntity, ActivityCountEntity activityCountEntity) {
 
-        log.info("活动责任链-基础信息【有效期、状态】校验开始。");
 
         return next().action(activitySkuEntity, activityEntity, activityCountEntity);
     }

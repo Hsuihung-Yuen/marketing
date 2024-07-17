@@ -2,6 +2,8 @@ package cn.hhy.infrastructure.persistent.redis;
 
 import org.redisson.api.*;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author Hhy
  * @description Redis服务接口
@@ -262,4 +264,7 @@ public interface IRedisService {
     <T> RBloomFilter<T> getBloomFilter(String key);
 
     Boolean setNx(String key);
+
+    Boolean setNx(String key, long expired, TimeUnit timeUnit);
+
 }
