@@ -1,4 +1,4 @@
-package cn.hhy.domain.activity.service.rule;
+package cn.hhy.domain.activity.service.quota.rule;
 
 /**
  * @author Hhy

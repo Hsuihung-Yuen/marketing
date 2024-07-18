@@ -1,5 +1,6 @@
-package cn.hhy.infrastructure.persistent.po;
+package cn.hhy.domain.activity.model.entity;
 
+import cn.hhy.domain.activity.model.valobj.UserRaffleOrderStateVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,17 +10,14 @@ import java.util.Date;
 
 /**
  * @author Hhy
- * @description 用户抽奖订单表
+ * @description 用户抽奖订单实体对象
  * @create 2024/7/18
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRaffleOrder {
-
-    /** 用户ID */
-    private String id;
+public class UserRaffleOrderEntity {
 
     /** 活动ID */
     private String userId;
@@ -40,11 +38,6 @@ public class UserRaffleOrder {
     private Date orderTime;
 
     /** 创建时间 */
-    private String orderState;
+    private UserRaffleOrderStateVO orderState;
 
-    /** 更新时间 */
-    private Date createTime;
-
-    /**  */
-    private Date updateTime;
 }

@@ -1,6 +1,5 @@
 package cn.hhy.domain.activity.model.aggregate;
 
-import cn.hhy.domain.activity.model.entity.ActivityAccountEntity;
 import cn.hhy.domain.activity.model.entity.ActivityOrderEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,14 +8,14 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author Hhy
- * @description 下单聚合对象
+ * @description 用户行为修改账户额度下单-聚合对象
  * @create 2024/7/16
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateOrderAggregate {
+public class CreateQuotaOrderAggregate {
 
     /**
      * 用户ID

@@ -26,7 +26,7 @@ public class ActivityArmory implements IActivityArmory,IActivityDispatch{
         // 预热活动sku库存，皆为查询时预热到缓存
         ActivitySkuEntity activitySkuEntity = activityRepository.queryActivitySku(sku);
         String cacheKey = Constants.RedisKey.ACTIVITY_SKU_STOCK_COUNT_KEY + sku;
-        activityRepository.cacheActivitySkuStockCount(cacheKey, activitySkuEntity.getStockCount());
+        activityRepository.cacheActivitySkuStockCount(cacheKey, activitySkuEntity.getStockCountSurplus());
 
         // 预热活动
         activityRepository.queryRaffleActivityByActivityId(activitySkuEntity.getActivityId());

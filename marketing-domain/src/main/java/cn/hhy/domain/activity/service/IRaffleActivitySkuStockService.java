@@ -1,4 +1,4 @@
-package cn.hhy.domain.activity.service.rule;
+package cn.hhy.domain.activity.service;
 
 import cn.hhy.domain.activity.model.valobj.ActivitySkuStockKeyVO;
 
@@ -7,7 +7,7 @@ import cn.hhy.domain.activity.model.valobj.ActivitySkuStockKeyVO;
  * @description sku处理接口
  * @create 2024/7/17
  */
-public interface ISkuStock {
+public interface IRaffleActivitySkuStockService {
 
     /**
      * 获取活动sku库存消耗队列
