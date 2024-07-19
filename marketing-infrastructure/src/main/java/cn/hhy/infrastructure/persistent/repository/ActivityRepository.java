@@ -395,6 +395,15 @@ public class ActivityRepository implements IActivityRepository {
                             log.warn("写入创建参与活动记录，更新月账户额度不足，异常 userId: {} activityId: {} month: {}", userId, activityId, activityAccountMonthEntity.getMonth());
                             throw new AppException(ResponseCode.ACCOUNT_MONTH_QUOTA_ERROR.getCode(), ResponseCode.ACCOUNT_MONTH_QUOTA_ERROR.getInfo());
                         }
+                        //todo
+                        // 更新总账户中月镜像库存
+//                        raffleActivityAccountDao.updateActivityAccountMonthSubtractionQuota(
+//                                RaffleActivityAccount.builder()
+//                                        .userId(userId)
+//                                        .activityId(activityId)
+//                                        .build());
+
+
                     } else {
                         raffleActivityAccountMonthDao.insertActivityAccountMonth(
                                 RaffleActivityAccountMonth.builder()
@@ -432,6 +441,13 @@ public class ActivityRepository implements IActivityRepository {
                             log.warn("写入创建参与活动记录，更新日账户额度不足，异常 userId: {} activityId: {} day: {}", userId, activityId, activityAccountDayEntity.getDay());
                             throw new AppException(ResponseCode.ACCOUNT_DAY_QUOTA_ERROR.getCode(), ResponseCode.ACCOUNT_DAY_QUOTA_ERROR.getInfo());
                         }
+                        //todo
+                        // 更新总账户中月镜像库存
+//                        raffleActivityAccountDao.updateActivityAccountDaySubtractionQuota(
+//                                RaffleActivityAccount.builder()
+//                                        .userId(userId)
+//                                        .activityId(activityId)
+//                                        .build());
                     } else {
                         raffleActivityAccountDayDao.insertActivityAccountDay(
                                 RaffleActivityAccountDay.builder()
@@ -442,8 +458,8 @@ public class ActivityRepository implements IActivityRepository {
                                         .dayCountSurplus(activityAccountDayEntity.getDayCountSurplus() - 1)
                                         .build()
                         );
+                        //todo
                         // 新创建日账户，则更新总账表中日镜像额度
-                        // todo
 //                        raffleActivityAccountDao.updateActivityAccountDaySurplusImageQuota(
 //                                RaffleActivityAccount.builder()
 //                                        .userId(userId)

@@ -1,5 +1,6 @@
-package cn.hhy.infrastructure.persistent.po;
+package cn.hhy.domain.award.model.entity;
 
+import cn.hhy.domain.award.model.valobj.AwardStateVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,17 +10,14 @@ import java.util.Date;
 
 /**
  * @author Hhy
- * @description 用户中奖记录表
- * @create 2024/7/18
+ * @description 用户中奖记录实体对象
+ * @create 2024/7/19
  */
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserAwardRecord {
-
-    /** 自增ID */
-    private String id;
+@NoArgsConstructor
+public class UserAwardRecordEntity {
 
     /** 用户ID */
     private String userId;
@@ -43,11 +41,6 @@ public class UserAwardRecord {
     private Date awardTime;
 
     /** 奖品状态；create-创建、completed-发奖完成 */
-    private String awardState;
+    private AwardStateVO awardState;
 
-    /** 创建时间 */
-    private Date createTime;
-
-    /** 更新时间 */
-    private Date updateTime;
 }

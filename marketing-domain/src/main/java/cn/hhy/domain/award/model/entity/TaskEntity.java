@@ -1,25 +1,23 @@
-package cn.hhy.infrastructure.persistent.po;
+package cn.hhy.domain.award.model.entity;
 
+import cn.hhy.domain.award.model.valobj.TaskStateVO;
+import cn.hhy.types.event.BaseEvent;
+import cn.hhy.domain.award.event.SendAwardMessageEvent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 /**
  * @author Hhy
- * @description 任务表，发送MQ
- * @create 2024/7/18
+ * @description 任务实体对象
+ * @create 2024/7/19
  */
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class Task {
-
-    /** 自增ID */
-    private String id;
+@NoArgsConstructor
+public class TaskEntity {
 
     /** 活动ID */
     private String userId;
@@ -31,14 +29,9 @@ public class Task {
     private String messageId;
 
     /** 消息主体 */
-    private String message;
+    private BaseEvent.EventMessage<SendAwardMessageEvent.SendAwardMessage> message;
 
     /** 任务状态；create-创建、completed-完成、fail-失败 */
-    private String state;
+    private TaskStateVO state;
 
-    /** 创建时间 */
-    private Date createTime;
-
-    /** 更新时间 */
-    private Date updateTime;
 }
