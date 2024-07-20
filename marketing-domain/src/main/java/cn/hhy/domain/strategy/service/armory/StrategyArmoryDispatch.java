@@ -67,6 +67,12 @@ public class StrategyArmoryDispatch implements IStrategyArmory,IStrategyDispatch
         return true;
     }
 
+    @Override
+    public boolean assembleLotteryStrategyByActivityId(Long activityId) {
+        Long strategyId = repository.queryStrategyIdByActivityId(activityId);
+        return assembleLotteryStrategy(strategyId);
+    }
+
     private void assembleLotteryStrategy(String key, List<StrategyAwardEntity> strategyAwardEntities) {
         // 1. 获取最小概率值
         BigDecimal minAwardRate = strategyAwardEntities.stream()

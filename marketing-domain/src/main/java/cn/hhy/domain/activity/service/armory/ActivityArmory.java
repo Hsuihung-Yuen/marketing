@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Hhy
@@ -22,19 +23,39 @@ public class ActivityArmory implements IActivityArmory,IActivityDispatch{
     private IActivityRepository activityRepository;
 
     @Override
+    public boolean assembleActivitySkuByActivityId(Long activityId) {
+        //一个活动多个sku行为
+        List<ActivitySkuEntity> activitySkuEntities = activityRepository.queryActivitySkuListByActivityId(activityId);
+        for (ActivitySkuEntity activitySkuEntity : activitySkuEntities) {
+            cacheActivitySkuStockCount(activitySkuEntity.getSku(), activitySkuEntity.getStockCountSurplus());
+            // 预热活动次数【查询时预热到缓存】
+            activityRepository.queryRaffleActivityCountByActivityCountId(activitySkuEntity.getActivityCountId());
+        }
+
+        // 预热活动【查询时预热到缓存】
+        activityRepository.queryRaffleActivityByActivityId(activityId);
+
+        return true;
+    }
+
+    @Override
     public boolean assembleActivitySku(Long sku) {
         // 预热活动sku库存，皆为查询时预热到缓存
         ActivitySkuEntity activitySkuEntity = activityRepository.queryActivitySku(sku);
-        String cacheKey = Constants.RedisKey.ACTIVITY_SKU_STOCK_COUNT_KEY + sku;
-        activityRepository.cacheActivitySkuStockCount(cacheKey, activitySkuEntity.getStockCountSurplus());
-
-        // 预热活动
-        activityRepository.queryRaffleActivityByActivityId(activitySkuEntity.getActivityId());
+        cacheActivitySkuStockCount(sku, activitySkuEntity.getStockCountSurplus());
 
         // 预热活动次数
         activityRepository.queryRaffleActivityCountByActivityCountId(activitySkuEntity.getActivityCountId());
 
+        // 预热活动
+        activityRepository.queryRaffleActivityByActivityId(activitySkuEntity.getActivityId());
+
         return true;
+    }
+
+    private void cacheActivitySkuStockCount(Long sku, Integer stockCount) {
+        String cacheKey = Constants.RedisKey.ACTIVITY_SKU_STOCK_COUNT_KEY + sku;
+        activityRepository.cacheActivitySkuStockCount(cacheKey, stockCount);
     }
 
     @Override

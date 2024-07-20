@@ -15,4 +15,13 @@ public interface IStrategyArmory {
      */
     boolean assembleLotteryStrategy(Long strategyId);
 
+    /**
+     * 通过活动 id 装配抽奖策略配置
+     *
+     * @param activityId 活动ID
+     * @return 装配结果
+     */
+    boolean assembleLotteryStrategyByActivityId(Long activityId);
+
+
 }

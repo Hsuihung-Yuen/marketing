@@ -24,7 +24,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -395,13 +398,12 @@ public class ActivityRepository implements IActivityRepository {
                             log.warn("写入创建参与活动记录，更新月账户额度不足，异常 userId: {} activityId: {} month: {}", userId, activityId, activityAccountMonthEntity.getMonth());
                             throw new AppException(ResponseCode.ACCOUNT_MONTH_QUOTA_ERROR.getCode(), ResponseCode.ACCOUNT_MONTH_QUOTA_ERROR.getInfo());
                         }
-                        //todo
                         // 更新总账户中月镜像库存
-//                        raffleActivityAccountDao.updateActivityAccountMonthSubtractionQuota(
-//                                RaffleActivityAccount.builder()
-//                                        .userId(userId)
-//                                        .activityId(activityId)
-//                                        .build());
+                        raffleActivityAccountDao.updateActivityAccountMonthSubtractionQuota(
+                                RaffleActivityAccount.builder()
+                                        .userId(userId)
+                                        .activityId(activityId)
+                                        .build());
 
 
                     } else {
@@ -416,14 +418,13 @@ public class ActivityRepository implements IActivityRepository {
                         );
 
                         // 新创建月账户，则更新总账表中月镜像额度
-                        //todo
-//                        raffleActivityAccountDao.updateActivityAccountMonthSurplusImageQuota(
-//                                RaffleActivityAccount.builder()
-//                                        .userId(userId)
-//                                        .activityId(activityId)
-//                                        .monthCountSurplus(activityAccountEntity.getMonthCountSurplus())
-//                                        .build()
-//                        );
+                        raffleActivityAccountDao.updateActivityAccountMonthSurplusImageQuota(
+                                RaffleActivityAccount.builder()
+                                        .userId(userId)
+                                        .activityId(activityId)
+                                        .monthCountSurplus(activityAccountEntity.getMonthCountSurplus())
+                                        .build()
+                        );
                     }
 
                     // 3. 创建或更新日账户，true - 存在则更新，false - 不存在则插入
@@ -441,13 +442,12 @@ public class ActivityRepository implements IActivityRepository {
                             log.warn("写入创建参与活动记录，更新日账户额度不足，异常 userId: {} activityId: {} day: {}", userId, activityId, activityAccountDayEntity.getDay());
                             throw new AppException(ResponseCode.ACCOUNT_DAY_QUOTA_ERROR.getCode(), ResponseCode.ACCOUNT_DAY_QUOTA_ERROR.getInfo());
                         }
-                        //todo
                         // 更新总账户中月镜像库存
-//                        raffleActivityAccountDao.updateActivityAccountDaySubtractionQuota(
-//                                RaffleActivityAccount.builder()
-//                                        .userId(userId)
-//                                        .activityId(activityId)
-//                                        .build());
+                        raffleActivityAccountDao.updateActivityAccountDaySubtractionQuota(
+                                RaffleActivityAccount.builder()
+                                        .userId(userId)
+                                        .activityId(activityId)
+                                        .build());
                     } else {
                         raffleActivityAccountDayDao.insertActivityAccountDay(
                                 RaffleActivityAccountDay.builder()
@@ -458,15 +458,14 @@ public class ActivityRepository implements IActivityRepository {
                                         .dayCountSurplus(activityAccountDayEntity.getDayCountSurplus() - 1)
                                         .build()
                         );
-                        //todo
                         // 新创建日账户，则更新总账表中日镜像额度
-//                        raffleActivityAccountDao.updateActivityAccountDaySurplusImageQuota(
-//                                RaffleActivityAccount.builder()
-//                                        .userId(userId)
-//                                        .activityId(activityId)
-//                                        .dayCountSurplus(activityAccountEntity.getDayCountSurplus())
-//                                        .build()
-//                        );
+                        raffleActivityAccountDao.updateActivityAccountDaySurplusImageQuota(
+                                RaffleActivityAccount.builder()
+                                        .userId(userId)
+                                        .activityId(activityId)
+                                        .dayCountSurplus(activityAccountEntity.getDayCountSurplus())
+                                        .build()
+                        );
                     }
 
                     // 4. 写入参与活动订单
@@ -491,6 +490,22 @@ public class ActivityRepository implements IActivityRepository {
         } finally {
             dbRouter.clear();
         }
+    }
+
+    @Override
+    public List<ActivitySkuEntity> queryActivitySkuListByActivityId(Long activityId) {
+        List<RaffleActivitySku> raffleActivitySkus = raffleActivitySkuDao.queryActivitySkuListByActivityId(activityId);
+        List<ActivitySkuEntity> activitySkuEntities = new ArrayList<>(raffleActivitySkus.size());
+        for (RaffleActivitySku raffleActivitySku:raffleActivitySkus){
+            ActivitySkuEntity activitySkuEntity=ActivitySkuEntity.builder()
+                    .sku(raffleActivitySku.getSku())
+                    .activityCountId(raffleActivitySku.getActivityCountId())
+                    .stockCount(raffleActivitySku.getStockCount())
+                    .stockCountSurplus(raffleActivitySku.getStockCountSurplus())
+                    .build();
+            activitySkuEntities.add(activitySkuEntity);
+        }
+        return activitySkuEntities;
     }
 
 }
