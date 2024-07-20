@@ -1,5 +1,7 @@
 package cn.hhy.domain.strategy.service.armory;
 
+import java.util.Date;
+
 /**
  * @author Hhy
  * @description 策略抽奖调度
@@ -24,8 +26,9 @@ public interface IStrategyDispatch {
      *
      * @param strategyId 策略ID
      * @param awardId    奖品ID
+     * @param endDateTime 活动结束时间
      * @return 扣减结果
      */
-    Boolean subtractionAwardStock(Long strategyId, Integer awardId);
+    Boolean subtractionAwardStock(Long strategyId, Integer awardId, Date endDateTime);
 
 }
