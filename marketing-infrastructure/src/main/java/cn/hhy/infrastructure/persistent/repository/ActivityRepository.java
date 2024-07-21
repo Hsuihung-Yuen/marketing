@@ -136,11 +136,11 @@ public class ActivityRepository implements IActivityRepository {
     }
 
     @Override
-    public void doSaveOrder(CreateQuotaOrderAggregate CreateQuotaOrderAggregate) {
+    public void doSaveOrder(CreateQuotaOrderAggregate createQuotaOrderAggregate) {
 
         try {
             // 订单对象
-            ActivityOrderEntity activityOrderEntity= CreateQuotaOrderAggregate.getActivityOrderEntity();
+            ActivityOrderEntity activityOrderEntity= createQuotaOrderAggregate.getActivityOrderEntity();
             RaffleActivityOrder raffleActivityOrder=RaffleActivityOrder.builder()
                     .userId(activityOrderEntity.getUserId())
                     .sku(activityOrderEntity.getSku())
@@ -149,39 +149,62 @@ public class ActivityRepository implements IActivityRepository {
                     .strategyId(activityOrderEntity.getStrategyId())
                     .orderId(activityOrderEntity.getOrderId())
                     .orderTime(activityOrderEntity.getOrderTime())
-                    .totalCount(CreateQuotaOrderAggregate.getTotalCount())
-                    .dayCount(CreateQuotaOrderAggregate.getDayCount())
-                    .monthCount(CreateQuotaOrderAggregate.getMonthCount())
+                    .totalCount(createQuotaOrderAggregate.getTotalCount())
+                    .dayCount(createQuotaOrderAggregate.getDayCount())
+                    .monthCount(createQuotaOrderAggregate.getMonthCount())
                     .state(activityOrderEntity.getState().getCode())
                     .outBusinessNo(activityOrderEntity.getOutBusinessNo())
                     .build();
 
-            // 账户对象
+            // 账户对象-总
             RaffleActivityAccount raffleActivityAccount =RaffleActivityAccount.builder()
-                    .userId(CreateQuotaOrderAggregate.getUserId())
-                    .activityId(CreateQuotaOrderAggregate.getActivityId())
-                    .totalCount(CreateQuotaOrderAggregate.getTotalCount())
-                    .totalCountSurplus(CreateQuotaOrderAggregate.getTotalCount())
-                    .dayCount(CreateQuotaOrderAggregate.getDayCount())
-                    .dayCountSurplus(CreateQuotaOrderAggregate.getDayCount())
-                    .monthCount(CreateQuotaOrderAggregate.getMonthCount())
-                    .monthCountSurplus(CreateQuotaOrderAggregate.getMonthCount())
+                    .userId(createQuotaOrderAggregate.getUserId())
+                    .activityId(createQuotaOrderAggregate.getActivityId())
+                    .totalCount(createQuotaOrderAggregate.getTotalCount())
+                    .totalCountSurplus(createQuotaOrderAggregate.getTotalCount())
+                    .dayCount(createQuotaOrderAggregate.getDayCount())
+                    .dayCountSurplus(createQuotaOrderAggregate.getDayCount())
+                    .monthCount(createQuotaOrderAggregate.getMonthCount())
+                    .monthCountSurplus(createQuotaOrderAggregate.getMonthCount())
                     .build();
 
+            // 账户对象 - 月
+            RaffleActivityAccountMonth raffleActivityAccountMonth= RaffleActivityAccountMonth.builder()
+                    .userId(createQuotaOrderAggregate.getUserId())
+                    .activityId(createQuotaOrderAggregate.getActivityId())
+                    .monthCount(createQuotaOrderAggregate.getMonthCount())
+                    .monthCountSurplus(createQuotaOrderAggregate.getMonthCount())
+                    .build();
+            raffleActivityAccountMonth.setMonth(raffleActivityAccountMonth.currentMonth());
+
+            // 账户对象 - 日
+            RaffleActivityAccountDay raffleActivityAccountDay =RaffleActivityAccountDay.builder()
+                    .userId(createQuotaOrderAggregate.getUserId())
+                    .activityId(createQuotaOrderAggregate.getActivityId())
+                    .dayCount(createQuotaOrderAggregate.getDayCount())
+                    .dayCountSurplus(createQuotaOrderAggregate.getDayCount())
+                    .build();
+            raffleActivityAccountDay.setDay(raffleActivityAccountDay.currentDay());
+
             // 以用户ID作为切分键，通过 doRouter 设定路由【这样就保证了下面的操作，都是同一个连接下，也就保证了事务的特性】
-            dbRouter.doRouter(CreateQuotaOrderAggregate.getUserId());
+            dbRouter.doRouter(createQuotaOrderAggregate.getUserId());
 
             // 编程式事务
             transactionTemplate.execute(status -> {
                 try {
                     // 1. 写入订单
                     raffleActivityOrderDao.insert(raffleActivityOrder);
-                    // 2. 更新账户
+                    // 2. 更新账户-总
                     int count = raffleActivityAccountDao.updateAccountQuota(raffleActivityAccount);
                     // 3. 创建账户 - 更新为0，则账户不存在，创新新账户。
                     if (0 == count) {
                         raffleActivityAccountDao.insert(raffleActivityAccount);
                     }
+                    // 4. 更新账户 - 月
+                    raffleActivityAccountMonthDao.addAccountQuota(raffleActivityAccountMonth);
+                    // 5. 更新账户 - 日
+                    raffleActivityAccountDayDao.addAccountQuota(raffleActivityAccountDay);
+
                     //这里返回前可以将账单id添加到布隆过滤器，防止因为其他原因导致无用的重试
                     return 1;
                 } catch (DuplicateKeyException e) {
