@@ -174,8 +174,8 @@ public class ActivityRepository implements IActivityRepository {
                     .activityId(createQuotaOrderAggregate.getActivityId())
                     .monthCount(createQuotaOrderAggregate.getMonthCount())
                     .monthCountSurplus(createQuotaOrderAggregate.getMonthCount())
+                    .month(RaffleActivityAccountMonth.currentMonth())
                     .build();
-            raffleActivityAccountMonth.setMonth(raffleActivityAccountMonth.currentMonth());
 
             // 账户对象 - 日
             RaffleActivityAccountDay raffleActivityAccountDay = RaffleActivityAccountDay.builder()
@@ -183,8 +183,8 @@ public class ActivityRepository implements IActivityRepository {
                     .activityId(createQuotaOrderAggregate.getActivityId())
                     .dayCount(createQuotaOrderAggregate.getDayCount())
                     .dayCountSurplus(createQuotaOrderAggregate.getDayCount())
+                    .day(RaffleActivityAccountDay.currentDay())
                     .build();
-            raffleActivityAccountDay.setDay(raffleActivityAccountDay.currentDay());
 
             // 以用户ID作为切分键，通过 doRouter 设定路由【这样就保证了下面的操作，都是同一个连接下，也就保证了事务的特性】
             dbRouter.doRouter(createQuotaOrderAggregate.getUserId());
@@ -536,7 +536,7 @@ public class ActivityRepository implements IActivityRepository {
         RaffleActivityAccountDay raffleActivityAccountDay = new RaffleActivityAccountDay();
         raffleActivityAccountDay.setActivityId(activityId);
         raffleActivityAccountDay.setUserId(userId);
-        raffleActivityAccountDay.setDay(raffleActivityAccountDay.currentDay());
+        raffleActivityAccountDay.setDay(RaffleActivityAccountDay.currentDay());
         Integer dayPartakeCount = raffleActivityAccountDayDao.queryRaffleActivityAccountDayPartakeCount(raffleActivityAccountDay);
         // 当日未参与抽奖则为0次
         return null == dayPartakeCount ? 0 : dayPartakeCount;
@@ -568,17 +568,19 @@ public class ActivityRepository implements IActivityRepository {
         // 2. 查询月账户额度
         RaffleActivityAccountMonth raffleActivityAccountMonth = raffleActivityAccountMonthDao.queryActivityAccountMonthByUserId(
                 RaffleActivityAccountMonth.builder()
-                    .activityId(activityId)
-                    .userId(userId)
-                    .build()
+                        .activityId(activityId)
+                        .userId(userId)
+                        .month(RaffleActivityAccountMonth.currentMonth())
+                        .build()
         );
 
         // 3. 查询日账户额度
         RaffleActivityAccountDay raffleActivityAccountDay = raffleActivityAccountDayDao.queryActivityAccountDayByUserId(
                 RaffleActivityAccountDay.builder()
-                    .activityId(activityId)
-                    .userId(userId)
-                    .build()
+                        .activityId(activityId)
+                        .userId(userId)
+                        .day(RaffleActivityAccountDay.currentDay())
+                        .build()
         );
 
         // 组装对象
@@ -618,6 +620,7 @@ public class ActivityRepository implements IActivityRepository {
                     .userId(userId)
                     .build()
         );
+        if (null == raffleActivityAccount) return 0;
         return raffleActivityAccount.getTotalCount() - raffleActivityAccount.getTotalCountSurplus();
     }
 

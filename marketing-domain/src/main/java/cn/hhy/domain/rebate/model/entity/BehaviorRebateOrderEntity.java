@@ -34,7 +34,10 @@ public class BehaviorRebateOrderEntity {
     /** 返利配置【sku值，积分值】 */
     private String rebateConfig;
 
-    /** 业务仿重ID - 外部透传，方便查询使用 */
+    /**
+     * 业务仿重ID - 外部透传，方便查询使用
+     * 值含义为行为奖励的日期 - 与 activity 中的 outBusinessNo 含义不同
+     */
     private String outBusinessNo;
 
     /** 业务ID - 拼接的唯一值 */
