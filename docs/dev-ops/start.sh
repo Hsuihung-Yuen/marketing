@@ -1,5 +1,5 @@
 CONTAINER_NAME=marketing-app
-IMAGE_NAME=thehhy/marketing-app:1.0
+IMAGE_NAME=thehhy/marketing-app:2.0
 PORT=8091
 
 echo "容器部署开始 ${CONTAINER_NAME}"
