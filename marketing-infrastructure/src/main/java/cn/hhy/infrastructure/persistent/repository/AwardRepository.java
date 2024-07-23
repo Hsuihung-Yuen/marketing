@@ -14,15 +14,19 @@ import cn.hhy.infrastructure.persistent.po.Task;
 import cn.hhy.infrastructure.persistent.po.UserAwardRecord;
 import cn.hhy.infrastructure.persistent.po.UserCreditAccount;
 import cn.hhy.infrastructure.persistent.po.UserRaffleOrder;
+import cn.hhy.infrastructure.persistent.redis.IRedisService;
+import cn.hhy.types.common.Constants;
 import cn.hhy.types.enums.ResponseCode;
 import cn.hhy.types.exception.AppException;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Hhy
@@ -56,6 +60,9 @@ public class AwardRepository implements IAwardRepository {
 
     @Resource
     private EventPublisher eventPublisher;
+
+    @Resource
+    private IRedisService redisService;
 
     @Override
     public void saveUserAwardRecord(UserAwardRecordAggregate userAwardRecordAggregate) {
@@ -121,6 +128,7 @@ public class AwardRepository implements IAwardRepository {
             eventPublisher.publish(task.getTopic(), task.getMessage());
             // 更新数据库记录，task 任务表
             taskDao.updateTaskSendMessageCompleted(task);
+            log.info("写入中奖记录，发送MQ消息完成 userId: {} orderId:{} topic: {}", userId, userAwardRecordEntity.getOrderId(), task.getTopic());
         } catch (Exception e) {
             log.error("写入中奖记录，发送MQ消息失败 userId: {} topic: {}", userId, task.getTopic());
             taskDao.updateTaskSendMessageFail(task);
@@ -154,14 +162,18 @@ public class AwardRepository implements IAwardRepository {
                 .accountStatus(AccountStatusVO.open.getCode())
                 .build();
 
+        RLock lock = redisService.getLock(Constants.RedisKey.ACTIVITY_ACCOUNT_LOCK + userId);
         try {
+            lock.lock(3, TimeUnit.SECONDS);
             dbRouter.doRouter(giveOutPrizesAggregate.getUserId());
             transactionTemplate.execute(status -> {
                 try {
                     // 更新积分 || 创建积分账户
-                    int updateAccountCount = userCreditAccountDao.updateAddAmount(userCreditAccountReq);
-                    if (0 == updateAccountCount) {
+                    UserCreditAccount userCreditAccountRes = userCreditAccountDao.queryUserCreditAccount(userCreditAccountReq);
+                    if (null == userCreditAccountRes) {
                         userCreditAccountDao.insert(userCreditAccountReq);
+                    } else {
+                        userCreditAccountDao.updateAddAmount(userCreditAccountReq);
                     }
 
                     // 更新奖品记录
@@ -179,6 +191,7 @@ public class AwardRepository implements IAwardRepository {
             });
         } finally {
             dbRouter.clear();
+            lock.unlock();
         }
     }
 

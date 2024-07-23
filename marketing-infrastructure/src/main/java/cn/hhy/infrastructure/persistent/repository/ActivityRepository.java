@@ -19,6 +19,7 @@ import cn.hhy.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBlockingQueue;
 import org.redisson.api.RDelayedQueue;
+import org.redisson.api.RLock;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -137,8 +138,13 @@ public class ActivityRepository implements IActivityRepository {
 
     @Override
     public void doSaveOrder(CreateQuotaOrderAggregate createQuotaOrderAggregate) {
-
+        RLock lock = redisService.getLock(
+                Constants.RedisKey.ACTIVITY_ACCOUNT_LOCK +
+                        createQuotaOrderAggregate.getUserId() +
+                        Constants.UNDERLINE + createQuotaOrderAggregate.getActivityId()
+        );
         try {
+            lock.lock(3, TimeUnit.SECONDS);
             // 订单对象
             ActivityOrderEntity activityOrderEntity = createQuotaOrderAggregate.getActivityOrderEntity();
             RaffleActivityOrder raffleActivityOrder = RaffleActivityOrder.builder()
@@ -195,14 +201,15 @@ public class ActivityRepository implements IActivityRepository {
                     // 1. 写入订单
                     raffleActivityOrderDao.insert(raffleActivityOrder);
                     // 2. 更新账户-总
-                    int count = raffleActivityAccountDao.updateAccountQuota(raffleActivityAccount);
-                    // 3. 创建账户 - 更新为0，则账户不存在，创新新账户。
-                    if (0 == count) {
+                    RaffleActivityAccount raffleActivityAccountRes = raffleActivityAccountDao.queryAccountByUserId(raffleActivityAccount);
+                    if (null == raffleActivityAccountRes) {
                         raffleActivityAccountDao.insert(raffleActivityAccount);
+                    } else {
+                        raffleActivityAccountDao.updateAccountQuota(raffleActivityAccount);
                     }
-                    // 4. 更新账户 - 月
+                    // 3. 更新账户 - 月
                     raffleActivityAccountMonthDao.addAccountQuota(raffleActivityAccountMonth);
-                    // 5. 更新账户 - 日
+                    // 4. 更新账户 - 日
                     raffleActivityAccountDayDao.addAccountQuota(raffleActivityAccountDay);
 
                     //这里返回前可以将账单id添加到布隆过滤器，防止因为其他原因导致无用的重试
@@ -216,6 +223,7 @@ public class ActivityRepository implements IActivityRepository {
 
         } finally {
             dbRouter.clear();
+            lock.unlock();
         }
 
     }
