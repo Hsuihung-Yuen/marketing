@@ -23,7 +23,7 @@ public class RaffleActivityAccountDay {
     private final static SimpleDateFormat dateFormatDay = new SimpleDateFormat("yyyy-MM-dd");
 
     /** 自增ID */
-    private String id;
+    private Long id;
 
     /** 用户ID */
     private String userId;

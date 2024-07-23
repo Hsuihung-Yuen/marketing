@@ -1,5 +1,6 @@
 package cn.hhy.test.domain.award;
 
+import cn.hhy.domain.award.model.entity.DistributeAwardEntity;
 import cn.hhy.domain.award.model.entity.UserAwardRecordEntity;
 import cn.hhy.domain.award.model.valobj.AwardStateVO;
 import cn.hhy.domain.award.service.IAwardService;
@@ -48,6 +49,17 @@ public class AwardServiceTest {
         }
 
         new CountDownLatch(1).await();
+    }
+
+    @Test
+    public void test_distributeAward() throws InterruptedException {
+        DistributeAwardEntity distributeAwardEntity=DistributeAwardEntity.builder()
+                .userId("xiaofuge")
+                .orderId("690124733440")
+                .awardId(101)
+                .awardConfig("0.01,1")
+                .build();
+        awardService.distributeAward(distributeAwardEntity);
     }
 
 }
