@@ -1,6 +1,7 @@
 package cn.hhy.domain.activity.service;
 
 import cn.hhy.domain.activity.model.entity.ActivityAccountEntity;
+import cn.hhy.domain.activity.model.entity.DeliveryOrderEntity;
 import cn.hhy.domain.activity.model.entity.SkuRechargeEntity;
 
 /**
@@ -19,6 +20,12 @@ public interface IRaffleActivityAccountQuotaService {
      * @return 活动ID
      */
     String createOrder(SkuRechargeEntity skuRechargeEntity);
+
+    /**
+     * 订单出货 - 积分消费
+     * @param deliveryOrderEntity 出货单实体对象
+     */
+    void updateOrder(DeliveryOrderEntity deliveryOrderEntity);
 
     /**
      * 查询活动账户 - 总，参与次数

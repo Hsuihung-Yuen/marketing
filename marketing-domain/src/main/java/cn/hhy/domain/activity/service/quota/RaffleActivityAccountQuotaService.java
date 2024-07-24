@@ -3,14 +3,15 @@ package cn.hhy.domain.activity.service.quota;
 import cn.hhy.domain.activity.model.aggregate.CreateQuotaOrderAggregate;
 import cn.hhy.domain.activity.model.entity.*;
 import cn.hhy.domain.activity.model.valobj.ActivitySkuStockKeyVO;
-import cn.hhy.domain.activity.model.valobj.OrderStateVO;
 import cn.hhy.domain.activity.repository.IActivityRepository;
 import cn.hhy.domain.activity.service.IRaffleActivitySkuStockService;
+import cn.hhy.domain.activity.service.quota.policy.ITradePolicy;
 import cn.hhy.domain.activity.service.quota.rule.factory.DefaultActivityChainFactory;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @author Hhy
@@ -20,8 +21,8 @@ import java.util.Date;
 @Service
 public class RaffleActivityAccountQuotaService extends AbstractRaffleActivityAccountQuota implements IRaffleActivitySkuStockService {
 
-    public RaffleActivityAccountQuotaService(IActivityRepository activityRepository, DefaultActivityChainFactory defaultActivityChainFactory) {
-        super(activityRepository, defaultActivityChainFactory);
+    public RaffleActivityAccountQuotaService(IActivityRepository activityRepository, DefaultActivityChainFactory defaultActivityChainFactory, Map<String, ITradePolicy> tradePolicyGroup) {
+        super(activityRepository, defaultActivityChainFactory, tradePolicyGroup);
     }
 
     @Override
@@ -33,13 +34,13 @@ public class RaffleActivityAccountQuotaService extends AbstractRaffleActivityAcc
                 .activityId(activityEntity.getActivityId())
                 .activityName(activityEntity.getActivityName())
                 .strategyId(activityEntity.getStrategyId())
-                // 这里生成个12位uuid
+                // 这里随机生成个12位uuid
                 .orderId(RandomStringUtils.randomNumeric(12))
                 .orderTime(new Date())
                 .totalCount(activityCountEntity.getTotalCount())
                 .dayCount(activityCountEntity.getDayCount())
                 .monthCount(activityCountEntity.getMonthCount())
-                .state(OrderStateVO.completed)
+                .payAmount(activitySkuEntity.getProductAmount())
                 .outBusinessNo(skuRechargeEntity.getOutBusinessNo())
                 .build();
 
@@ -52,11 +53,6 @@ public class RaffleActivityAccountQuotaService extends AbstractRaffleActivityAcc
                 .monthCount(activityCountEntity.getMonthCount())
                 .activityOrderEntity(activityOrderEntity)
                 .build();
-    }
-
-    @Override
-    protected void doSaveOrder(CreateQuotaOrderAggregate createQuotaOrderAggregate) {
-        activityRepository.doSaveOrder(createQuotaOrderAggregate);
     }
 
     @Override
@@ -77,6 +73,11 @@ public class RaffleActivityAccountQuotaService extends AbstractRaffleActivityAcc
     @Override
     public void clearActivitySkuStock(Long sku) {
         activityRepository.clearActivitySkuStock(sku);
+    }
+
+    @Override
+    public void updateOrder(DeliveryOrderEntity deliveryOrderEntity) {
+        activityRepository.updateOrder(deliveryOrderEntity);
     }
 
     @Override

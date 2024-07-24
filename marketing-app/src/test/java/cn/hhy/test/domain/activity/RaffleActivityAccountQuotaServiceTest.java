@@ -1,6 +1,7 @@
 package cn.hhy.test.domain.activity;
 
 import cn.hhy.domain.activity.model.entity.SkuRechargeEntity;
+import cn.hhy.domain.activity.model.valobj.OrderTradeTypeVO;
 import cn.hhy.domain.activity.service.IRaffleActivityAccountQuotaService;
 import cn.hhy.domain.activity.service.armory.IActivityArmory;
 import cn.hhy.types.exception.AppException;
@@ -38,12 +39,12 @@ public class RaffleActivityAccountQuotaServiceTest {
 
     @Test
     public void test_createSkuRechargeOrder_duplicate() {
-        SkuRechargeEntity skuRechargeEntity = new SkuRechargeEntity();
-        skuRechargeEntity.setUserId("hhy");
-        skuRechargeEntity.setSku(9011L);
-        // outBusinessNo 作为幂等仿重使用，同一个业务单号2次使用会抛出索引冲突
-        // Duplicate entry '700091009111' for key 'uq_out_business_no' 确保唯一性。
-        skuRechargeEntity.setOutBusinessNo("700091009111");
+        SkuRechargeEntity skuRechargeEntity = SkuRechargeEntity.builder()
+                .userId("hhy")
+                .sku(9011L)
+                .outBusinessNo("700091009111")
+                .orderTradeType(OrderTradeTypeVO.rebate_no_pay_trade)
+                .build();
         String orderId = raffleOrder.createOrder(skuRechargeEntity);
         log.info("测试结果：{}", orderId);
     }
@@ -58,11 +59,12 @@ public class RaffleActivityAccountQuotaServiceTest {
     public void test_createSkuRechargeOrder() throws InterruptedException {
         for (int i = 0; i < 20; i++) {
             try {
-                SkuRechargeEntity skuRechargeEntity = new SkuRechargeEntity();
-                skuRechargeEntity.setUserId("xiaofuge");
-                skuRechargeEntity.setSku(9011L);
-                // outBusinessNo 作为幂等仿重使用，同一个业务单号2次使用会抛出索引冲突 Duplicate entry '700091009111' for key 'uq_out_business_no' 确保唯一性。
-                skuRechargeEntity.setOutBusinessNo(RandomStringUtils.randomNumeric(12));
+                SkuRechargeEntity skuRechargeEntity = SkuRechargeEntity.builder()
+                        .userId("xiaofuge")
+                        .sku(9011L)
+                        .outBusinessNo(RandomStringUtils.randomNumeric(12))
+                        .orderTradeType(OrderTradeTypeVO.rebate_no_pay_trade)
+                        .build();
                 String orderId = raffleOrder.createOrder(skuRechargeEntity);
                 log.info("测试结果：{}", orderId);
             } catch (AppException e) {
@@ -71,6 +73,18 @@ public class RaffleActivityAccountQuotaServiceTest {
         }
         //多线程环境下等待计数器一次
         new CountDownLatch(1).await();
+    }
+
+    @Test
+    public void test_credit_pay_trade() {
+        SkuRechargeEntity skuRechargeEntity = SkuRechargeEntity.builder()
+                .userId("xiaofuge")
+                .sku(9011L)
+                .outBusinessNo("70009240609111")
+                .orderTradeType(OrderTradeTypeVO.credit_pay_trade)
+                .build();
+        String orderId = raffleOrder.createOrder(skuRechargeEntity);
+        log.info("测试结果：{}", orderId);
     }
 
 }

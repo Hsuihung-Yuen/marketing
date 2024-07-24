@@ -1,6 +1,7 @@
 package cn.hhy.trigger.listener;
 
 import cn.hhy.domain.activity.model.entity.SkuRechargeEntity;
+import cn.hhy.domain.activity.model.valobj.OrderTradeTypeVO;
 import cn.hhy.domain.activity.service.IRaffleActivityAccountQuotaService;
 import cn.hhy.domain.credit.model.entity.TradeEntity;
 import cn.hhy.domain.credit.model.valobj.TradeNameVO;
@@ -60,6 +61,7 @@ public class RebateMessageCustomer {
                             .userId(rebateMessage.getUserId())
                             .sku(Long.valueOf(rebateMessage.getRebateConfig()))
                             .outBusinessNo(rebateMessage.getBizId())
+                            .orderTradeType(OrderTradeTypeVO.rebate_no_pay_trade)
                             .build();
                     raffleActivityAccountQuotaService.createOrder(skuRechargeEntity);
                     break;
