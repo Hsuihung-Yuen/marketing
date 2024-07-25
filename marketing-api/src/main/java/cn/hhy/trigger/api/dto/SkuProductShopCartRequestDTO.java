@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @author Hhy
  * @description 商品"购物车"请求对象
@@ -14,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SkuProductShopCartRequestDTO {
+public class SkuProductShopCartRequestDTO implements Serializable {
 
     /** 用户ID */
     private String userId;

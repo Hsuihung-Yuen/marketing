@@ -119,6 +119,18 @@ redis:
       ping-interval: 60000
       keep-alive: true
 
+dubbo:
+  application:
+    name: marketing
+    version: 1.0
+  registry:
+    id: nacos-registry
+    address: nacos://127.0.0.1:8848
+  protocol:
+    name: dubbo
+    port: -1
+  scan:
+    base-packages: cn.hhy.trigger.api
 
 # 日志
 logging:

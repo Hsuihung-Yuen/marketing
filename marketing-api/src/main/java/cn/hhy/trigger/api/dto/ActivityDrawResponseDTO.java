@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @author Hhy
  * @description 活动抽奖返回对象
@@ -14,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ActivityDrawResponseDTO {
+public class ActivityDrawResponseDTO implements Serializable {
 
     /** 奖品ID */
     private Integer awardId;
@@ -24,4 +26,5 @@ public class ActivityDrawResponseDTO {
 
     /** 排序编号【策略奖品配置的奖品顺序编号】 */
     private Integer awardIndex;
+
 }
