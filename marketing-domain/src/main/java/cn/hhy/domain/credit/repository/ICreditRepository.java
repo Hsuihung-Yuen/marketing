@@ -1,6 +1,7 @@
 package cn.hhy.domain.credit.repository;
 
 import cn.hhy.domain.credit.model.aggregate.TradeAggregate;
+import cn.hhy.domain.credit.model.entity.CreditAccountEntity;
 
 /**
  * @author Hhy
@@ -10,5 +11,7 @@ import cn.hhy.domain.credit.model.aggregate.TradeAggregate;
 public interface ICreditRepository {
 
     void saveUserCreditTradeOrder(TradeAggregate tradeAggregate);
+
+    CreditAccountEntity queryUserCreditAccount(String userId);
 
 }

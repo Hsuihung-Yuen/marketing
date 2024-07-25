@@ -1,10 +1,13 @@
 package cn.hhy.test.domain.activity;
 
 import cn.hhy.domain.activity.model.entity.SkuRechargeEntity;
+import cn.hhy.domain.activity.model.entity.UnpaidActivityOrderEntity;
 import cn.hhy.domain.activity.model.valobj.OrderTradeTypeVO;
 import cn.hhy.domain.activity.service.IRaffleActivityAccountQuotaService;
 import cn.hhy.domain.activity.service.armory.IActivityArmory;
 import cn.hhy.types.exception.AppException;
+import com.alibaba.fastjson2.JSON;
+import io.micrometer.core.annotation.TimedSet;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
@@ -32,7 +35,7 @@ public class RaffleActivityAccountQuotaServiceTest {
     @Resource
     private IActivityArmory activityArmory;
 
-    @Before
+    @Test
     public void setUp() {
         log.info("装配活动：{}", activityArmory.assembleActivitySku(9011L));
     }
@@ -45,8 +48,8 @@ public class RaffleActivityAccountQuotaServiceTest {
                 .outBusinessNo("700091009111")
                 .orderTradeType(OrderTradeTypeVO.rebate_no_pay_trade)
                 .build();
-        String orderId = raffleOrder.createOrder(skuRechargeEntity);
-        log.info("测试结果：{}", orderId);
+        UnpaidActivityOrderEntity unpaidActivityOrder = raffleOrder.createOrder(skuRechargeEntity);
+        log.info("测试结果：{}", JSON.toJSONString(unpaidActivityOrder));
     }
 
     /**
@@ -65,8 +68,8 @@ public class RaffleActivityAccountQuotaServiceTest {
                         .outBusinessNo(RandomStringUtils.randomNumeric(12))
                         .orderTradeType(OrderTradeTypeVO.rebate_no_pay_trade)
                         .build();
-                String orderId = raffleOrder.createOrder(skuRechargeEntity);
-                log.info("测试结果：{}", orderId);
+                UnpaidActivityOrderEntity orderId = raffleOrder.createOrder(skuRechargeEntity);
+                log.info("测试结果：{}", JSON.toJSONString(orderId));
             } catch (AppException e) {
                 log.warn(e.getInfo());
             }
@@ -83,8 +86,8 @@ public class RaffleActivityAccountQuotaServiceTest {
                 .outBusinessNo("70009240609111")
                 .orderTradeType(OrderTradeTypeVO.credit_pay_trade)
                 .build();
-        String orderId = raffleOrder.createOrder(skuRechargeEntity);
-        log.info("测试结果：{}", orderId);
+        UnpaidActivityOrderEntity orderId = raffleOrder.createOrder(skuRechargeEntity);
+        log.info("测试结果：{}", JSON.toJSONString(orderId));
     }
 
 }
