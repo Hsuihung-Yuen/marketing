@@ -40,7 +40,7 @@ public class RuleLuckAwardLogicTreeNode implements ILogicTreeNode {
         strategyRepository.awardStockConsumeSendQueue(
                 StrategyAwardStockKeyVO.builder()
                     .strategyId(strategyId)
-                    .awardId(awardId)
+                    .awardId(luckAwardId)
                     .build()
         );
 
