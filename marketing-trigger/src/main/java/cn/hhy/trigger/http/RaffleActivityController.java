@@ -196,10 +196,10 @@ public class RaffleActivityController implements IRaffleActivityService {
      * @return 签到返利结果
      *
      * 接口：<a href="http://localhost:8091/api/v1/raffle/activity/calendar_sign_rebate" />
-     * 入参：xiaofuge
+     * 入参：hhy
      *
      * curl -X POST http://localhost:8091/api/v1/raffle/activity/calendar_sign_rebate \
-     * -d "userId=xiaofuge" -H "Content-Type: application/x-www-form-urlencoded"
+     * -d "userId=hhy" -H "Content-Type: application/x-www-form-urlencoded"
      */
     @RequestMapping(value = "calendar_sign_rebate", method = RequestMethod.POST)
     @Override
@@ -238,7 +238,7 @@ public class RaffleActivityController implements IRaffleActivityService {
      * 判断是否签到接口
      *
      * curl -X POST http://localhost:8091/api/v1/raffle/activity/is_calendar_sign_rebate \
-     * -d "userId=xiaofuge" -H "Content-Type: application/x-www-form-urlencoded"
+     * -d "userId=hhy" -H "Content-Type: application/x-www-form-urlencoded"
      */
     @RequestMapping(value = "is_calendar_sign_rebate", method = RequestMethod.POST)
     @Override
@@ -270,7 +270,7 @@ public class RaffleActivityController implements IRaffleActivityService {
      * --url http://localhost:8091/api/v1/raffle/activity/query_user_activity_account \
      * --header 'content-type: application/json' \
      * --data '{
-     * "userId":"xiaofuge",
+     * "userId":"hhy",
      * "activityId": 100301
      * }'
      */

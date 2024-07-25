@@ -35,7 +35,7 @@ public class AwardServiceTest {
     public void test_saveUserAwardRecord() throws InterruptedException {
         for (int i = 0; i < 100; i++) {
             UserAwardRecordEntity userAwardRecordEntity = UserAwardRecordEntity.builder()
-                    .userId("xiaofuge")
+                    .userId("hhy")
                     .activityId(100301L)
                     .strategyId(100006L)
                     .orderId(RandomStringUtils.randomNumeric(12))
@@ -54,7 +54,7 @@ public class AwardServiceTest {
     @Test
     public void test_distributeAward() throws InterruptedException {
         DistributeAwardEntity distributeAwardEntity=DistributeAwardEntity.builder()
-                .userId("xiaofuge")
+                .userId("hhy")
                 .orderId("690124733440")
                 .awardId(101)
                 .awardConfig("0.01,1")

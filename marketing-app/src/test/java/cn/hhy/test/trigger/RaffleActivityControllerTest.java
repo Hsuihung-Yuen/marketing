@@ -40,7 +40,7 @@ public class RaffleActivityControllerTest {
         for (int i = 0; i < 10; i++) {
             ActivityDrawRequestDTO request = new ActivityDrawRequestDTO();
             request.setActivityId(100301L);
-            request.setUserId("xiaofuge");
+            request.setUserId("hhy");
             Response<ActivityDrawResponseDTO> response = raffleActivityService.draw(request);
 
             log.info("请求参数：{}", JSON.toJSONString(request));
@@ -73,7 +73,7 @@ public class RaffleActivityControllerTest {
 
     @Test
     public void test_isCalendarSignRebate() {
-        Response<Boolean> response = raffleActivityService.isCalendarSignRebate("xiaofuge");
+        Response<Boolean> response = raffleActivityService.isCalendarSignRebate("hhy");
         log.info("测试结果：{}", JSON.toJSONString(response));
     }
 
@@ -81,7 +81,7 @@ public class RaffleActivityControllerTest {
     public void test_queryUserActivityAccount() {
         UserActivityAccountRequestDTO request = new UserActivityAccountRequestDTO();
         request.setActivityId(100301L);
-        request.setUserId("xiaofuge");
+        request.setUserId("hhy");
 
         // 查询数据
         Response<UserActivityAccountResponseDTO> response = raffleActivityService.queryUserActivityAccount(request);
@@ -100,7 +100,7 @@ public class RaffleActivityControllerTest {
 
     @Test
     public void test_queryUserCreditAccount() {
-        String request = "xiaofuge";
+        String request = "hhy";
         Response<BigDecimal> response = raffleActivityService.queryUserCreditAccount(request);
         log.info("请求参数：{}", JSON.toJSONString(request));
         log.info("测试结果：{}", JSON.toJSONString(response));
@@ -109,7 +109,7 @@ public class RaffleActivityControllerTest {
     @Test
     public void test_creditPayExchangeSku() throws InterruptedException {
         SkuProductShopCartRequestDTO request = new SkuProductShopCartRequestDTO();
-        request.setUserId("xiaofuge");
+        request.setUserId("hhy");
         request.setSku(9014L);
         Response<Boolean> response = raffleActivityService.creditPayExchangeSku(request);
         log.info("请求参数：{}", JSON.toJSONString(request));

@@ -81,7 +81,7 @@ public class RaffleStrategyController implements IRaffleStrategyService {
      * <a href="http://localhost:8091/api/v1/raffle/strategy/query_raffle_award_list" />
      * 请求参数 raw json
      *
-     * @param request {"activityId":100301,"userId":"xiaofuge"}
+     * @param request {"activityId":100301,"userId":"hhy"}
      * @return 奖品列表
      */
     @RequestMapping(value = "query_raffle_award_list", method = RequestMethod.POST)
@@ -141,7 +141,7 @@ public class RaffleStrategyController implements IRaffleStrategyService {
      * --url http://localhost:8091/api/v1/raffle/strategy/query_raffle_strategy_rule_weight \
      * --header 'content-type: application/json' \
      * --data '{
-     * "userId":"xiaofuge",
+     * "userId":"hhy",
      * "activityId": 100301
      * }'
      */

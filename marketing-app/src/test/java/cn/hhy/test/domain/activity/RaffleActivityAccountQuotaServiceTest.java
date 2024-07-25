@@ -63,7 +63,7 @@ public class RaffleActivityAccountQuotaServiceTest {
         for (int i = 0; i < 20; i++) {
             try {
                 SkuRechargeEntity skuRechargeEntity = SkuRechargeEntity.builder()
-                        .userId("xiaofuge")
+                        .userId("hhy")
                         .sku(9011L)
                         .outBusinessNo(RandomStringUtils.randomNumeric(12))
                         .orderTradeType(OrderTradeTypeVO.rebate_no_pay_trade)
@@ -81,7 +81,7 @@ public class RaffleActivityAccountQuotaServiceTest {
     @Test
     public void test_credit_pay_trade() {
         SkuRechargeEntity skuRechargeEntity = SkuRechargeEntity.builder()
-                .userId("xiaofuge")
+                .userId("hhy")
                 .sku(9011L)
                 .outBusinessNo("70009240609111")
                 .orderTradeType(OrderTradeTypeVO.credit_pay_trade)

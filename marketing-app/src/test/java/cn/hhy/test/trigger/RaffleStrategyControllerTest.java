@@ -31,7 +31,7 @@ public class RaffleStrategyControllerTest {
     @Test
     public void test_queryRaffleAwardList() {
         RaffleAwardListRequestDTO request = new RaffleAwardListRequestDTO();
-        request.setUserId("xiaofuge");
+        request.setUserId("hhy");
         request.setActivityId(100301L);
         Response<List<RaffleAwardListResponseDTO>> response = raffleStrategyService.queryRaffleAwardList(request);
 
@@ -42,7 +42,7 @@ public class RaffleStrategyControllerTest {
     @Test
     public void test_queryRaffleStrategyRuleWeight() {
         RaffleStrategyRuleWeightRequestDTO request = new RaffleStrategyRuleWeightRequestDTO();
-        request.setUserId("xiaofuge");
+        request.setUserId("hhy");
         request.setActivityId(100301L);
 
         Response<List<RaffleStrategyRuleWeightResponseDTO>> response = raffleStrategyService.queryRaffleStrategyRuleWeight(request);
