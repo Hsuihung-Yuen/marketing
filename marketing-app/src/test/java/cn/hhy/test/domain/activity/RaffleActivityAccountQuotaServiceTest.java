@@ -35,7 +35,7 @@ public class RaffleActivityAccountQuotaServiceTest {
     @Resource
     private IActivityArmory activityArmory;
 
-    @Test
+    @Before
     public void setUp() {
         log.info("装配活动：{}", activityArmory.assembleActivitySku(9014L));
     }
