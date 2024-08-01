@@ -20,8 +20,8 @@
             user_id, activity_id, activity_name, strategy_id, order_id, order_time, order_state, create_time, update_time
         )
         values(
-                  #{userId}, #{activityId}, #{activityName}, #{strategyId}, #{orderId}, #{orderTime}, #{orderState}, now(), now()
-              )
+            #{userId}, #{activityId}, #{activityName}, #{strategyId}, #{orderId}, #{orderTime}, #{orderState}, now(), now()
+        )
     </insert>
 
     <select id="queryNoUsedRaffleOrder" parameterType="cn.hhy.infrastructure.persistent.po.UserRaffleOrder" resultMap="dataMap">

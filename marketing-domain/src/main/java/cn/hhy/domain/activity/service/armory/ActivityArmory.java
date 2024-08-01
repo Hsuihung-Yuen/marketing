@@ -28,7 +28,7 @@ public class ActivityArmory implements IActivityArmory,IActivityDispatch{
         List<ActivitySkuEntity> activitySkuEntities = activityRepository.queryActivitySkuListByActivityId(activityId);
         for (ActivitySkuEntity activitySkuEntity : activitySkuEntities) {
             cacheActivitySkuStockCount(activitySkuEntity.getSku(), activitySkuEntity.getStockCountSurplus());
-            // 预热活动次数【查询时预热到缓存】
+            // 预热个人活动次数【查询时预热到缓存】
             activityRepository.queryRaffleActivityCountByActivityCountId(activitySkuEntity.getActivityCountId());
         }
 

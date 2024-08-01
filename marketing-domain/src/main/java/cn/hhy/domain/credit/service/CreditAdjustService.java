@@ -46,7 +46,7 @@ public class CreditAdjustService implements ICreditAdjustService{
                 tradeEntity.getOutBusinessNo()
         );
 
-        // 3. 构建消息任务对象
+        // 3. 构建消息和任务对象
         CreditAdjustSuccessMessageEvent.CreditAdjustSuccessMessage creditAdjustSuccessMessage= CreditAdjustSuccessMessageEvent.CreditAdjustSuccessMessage.builder()
                 .userId(tradeEntity.getUserId())
                 .orderId(creditOrderEntity.getOrderId())

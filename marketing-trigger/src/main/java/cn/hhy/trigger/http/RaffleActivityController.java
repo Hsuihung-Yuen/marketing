@@ -404,7 +404,7 @@ public class RaffleActivityController implements IRaffleActivityService {
                             .userId(unpaidActivityOrder.getUserId())
                             .tradeName(TradeNameVO.CONVERT_SKU)
                             .tradeType(TradeTypeVO.REVERSE)
-                            //支付金额转换 todo
+                            //支付金额转换
                             .amount(unpaidActivityOrder.getPayAmount().negate())
                             .outBusinessNo(unpaidActivityOrder.getOutBusinessNo())
                             .build()
